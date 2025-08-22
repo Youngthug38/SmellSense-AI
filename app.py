@@ -1,71 +1,59 @@
-# app.py - The backend and AI model for SmellSense AI
-
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import LabelEncoder
-from flask import Flask, request, jsonify
-from flask_cors import CORS # To handle requests from the web browser
+from sklearn.model_selection import train_test_split
 
-# --- 1. AI Model Training ---
+# Initialize Flask App
+# The static_folder argument tells Flask where to find CSS, JS, etc.
+app = Flask(__name__, template_folder='templates', static_folder='static')
+CORS(app)
 
-# Load the dataset we created
-data = pd.read_csv('mock_breath_data.csv')
+# --- Model Training ---
+# Load the dataset
+df = pd.read_csv('mock_breath_data.csv')
 
-# Prepare the data
-# Features (the sensor readings)
-X = data[['acetone', 'isoprene', 'ethylbenzene', 'alkane_mix']]
-# Target (the condition)
-y = data['condition']
+# Define features (X) and target (y)
+X = df.drop('condition', axis=1)
+y = df['condition']
 
-# Encode the text labels ('Healthy', 'Diabetes', etc.) into numbers
-le = LabelEncoder()
-y_encoded = le.fit_transform(y)
-
-# We don't need to split into train/test here since we'll deploy the model trained on ALL data.
-# The 98% accuracy claim comes from testing this process offline.
+# Initialize and train the RandomForestClassifier
 model = RandomForestClassifier(n_estimators=100, random_state=42)
-model.fit(X, y_encoded)
+model.fit(X, y)
+# --- End of Model Training ---
 
-print("AI Model trained successfully on all available data.")
-print(f"The model is trained to predict the following classes: {le.classes_}")
 
-# --- 2. API Server ---
-
-# Create the Flask application
-app = Flask(__name__)
-CORS(app) # Enable Cross-Origin Resource Sharing
-
+# --- Route to Serve the Frontend ---
 @app.route('/')
 def home():
-    return "SmellSense AI Backend is running."
+    """Serves the main HTML page."""
+    return render_template('index.html')
 
-# Define the prediction endpoint
+
+# --- API Endpoint for Predictions ---
 @app.route('/predict', methods=['POST'])
 def predict():
+    """Receives breath data and returns an AI prediction."""
     try:
-        # Get the JSON data from the request
-        json_data = request.get_json()
+        data = request.json
+        # Convert incoming JSON to a pandas DataFrame
+        features = pd.DataFrame([data])
         
-        # Create a pandas DataFrame from the JSON data
-        features = [json_data['acetone'], json_data['isoprene'], json_data['ethylbenzene'], json_data['alkane_mix']]
-        df = pd.DataFrame([features], columns=['acetone', 'isoprene', 'ethylbenzene', 'alkane_mix'])
+        # Ensure the column order matches the training data
+        features = features[X.columns]
         
-        # Get probability predictions from the model
-        probabilities = model.predict_proba(df)[0]
+        # Make a prediction
+        prediction = model.predict(features)[0]
         
-        # Format the response
-        response = {
-            'status': 'success',
-            'predictions': {le.classes_[i]: prob for i, prob in enumerate(probabilities)}
-        }
-        
-        return jsonify(response)
-
+        # Return the prediction and original data
+        return jsonify({
+            'prediction': prediction,
+            'biomarkers': data
+        })
     except Exception as e:
-        return jsonify({'status': 'error', 'message': str(e)})
+        # Handle potential errors, like malformed data
+        return jsonify({'error': str(e)}), 400
 
-# Run the app
+# This allows the app to be run directly for local testing
 if __name__ == '__main__':
-    # On a real server, you would use a proper WSGI server like Gunicorn
-    app.run(debug=True, port=5000)
+    app.run(debug=True)
