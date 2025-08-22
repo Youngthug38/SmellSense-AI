@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmellSense AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="app-container">
+        <div id="home-screen" class="screen active">
+            <div class="content">
+                <h1>SmellSense AI</h1>
+                <p>AI-Powered Health Screening</p>
+                
+                <div class="sample-loader">
+                    <p class="sample-title">1. Load a Test Sample:</p>
+                    <div class="sample-buttons">
+                        <button class="sample-btn" data-sample="healthy">Healthy</button>
+                        <button class="sample-btn" data-sample="diabetes">Diabetes</button>
+                        <button class="sample-btn" data-sample="cancer">Lung Cancer</button>
+                    </div>
+                    <p id="sample-status">No sample loaded</p>
+                </div>
+
+                <p class="scan-title">2. Run Analysis:</p>
+                <button id="start-scan-btn" class="main-btn" disabled>Begin Breath Scan</button>
+            </div>
+        </div>
+
+        <div id="analyzing-screen" class="screen">
+            <div class="content">
+                <h2>Analyzing...</h2>
+                <div class="pulsing-animation"></div>
+                <div class="status-text">
+                    <span>Identifying Biomarkers...</span>
+                    <span>Running AI Classification...</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="results-screen" class="screen">
+            <div class="content">
+                <div class="result-icon">✓</div>
+                <h2 id="result-status"></h2>
+                <p id="result-percentage"></p>
+                <div id="result-details" class="details-container"></div>
+                <div id="ai-insights-report" class="insights-container"></div>
+                <button id="result-action-btn" class="main-btn"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

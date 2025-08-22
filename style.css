@@ -1,0 +1,151 @@
+:root {
+    --primary-font: 'Poppins', sans-serif;
+    --background-color: #FFFFFF;
+    --text-color: #1a1a1a;
+    --dark-btn-bg: #1a1a1a;
+    --dark-btn-text: #FFFFFF;
+    --green-bg: #2ecc71;
+    --yellow-bg: #f1c40f;
+    --red-bg: #e74c3c;
+    --white-text: #FFFFFF;
+}
+
+body {
+    margin: 0;
+    font-family: var(--primary-font);
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.app-container {
+    width: 375px;
+    height: 812px;
+    background-color: var(--background-color);
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.screen {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.screen.active { display: flex; }
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Home Screen */
+#home-screen h1 { font-size: 32px; margin-bottom: 8px; }
+#home-screen p { font-size: 18px; color: #666; margin-top: 0; }
+
+/* NEW "AI TEST BENCH" STYLING */
+.sample-loader {
+    width: 90%;
+    background-color: #f7f7f7;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 40px 0;
+    border: 1px solid #e0e0e0;
+}
+.sample-title, .scan-title {
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 15px 0;
+}
+.sample-buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.sample-btn {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.sample-btn.selected {
+    background-color: var(--dark-btn-bg);
+    color: var(--white-text);
+    border-color: var(--dark-btn-bg);
+}
+#sample-status {
+    font-size: 14px;
+    color: var(--green-bg);
+    height: 20px;
+}
+
+
+.main-btn {
+    padding: 15px 30px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: var(--dark-btn-bg);
+    color: var(--dark-btn-text);
+}
+.main-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Analyzing Screen */
+#analyzing-screen { background-color: #2c3e50; color: var(--white-text); }
+/* ... (rest of CSS is the same as before) ... */
+.result-icon {
+    font-size: 48px; width: 80px; height: 80px; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    border: 4px solid var(--white-text); color: var(--white-text); margin-bottom: 20px;
+}
+#results-screen h2 { font-size: 36px; font-weight: 700; margin: 0; }
+#results-screen p { font-size: 18px; margin: 10px 0; }
+.details-container {
+    background-color: rgba(255,255,255,0.2);
+    padding: 10px 20px; border-radius: 15px; margin-top: 15px; width: 80%;
+}
+.detail-item { display: flex; justify-content: space-between; font-size: 16px; margin: 10px 0; }
+
+.insights-container {
+    background-color: rgba(0,0,0,0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+    width: 85%;
+    font-size: 13px;
+    text-align: left;
+    line-height: 1.5;
+}
+.insights-container h4 { margin-top: 0; }
+.insights-container b { font-weight: 700; }
+
+#results-screen.green { background-color: var(--green-bg); color: var(--white-text); }
+#results-screen.yellow { background-color: var(--yellow-bg); color: var(--text-color); }
+#results-screen.red { background-color: var(--red-bg); color: var(--white-text); }
+#results-screen .main-btn { background: var(--white-text); }
+#results-screen.green .main-btn { color: var(--green-bg); }
+#results-screen.yellow .main-btn { color: var(--text-color); }
+#results-screen.red .main-btn { color: var(--red-bg); }
