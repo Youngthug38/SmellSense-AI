@@ -102,13 +102,13 @@ document.addEventListener('DOMContentLoaded', () => {
             status = 'Diabetes Markers Detected';
             resultElements.icon.textContent = '⚠️';
             resultElements.percentage.textContent = `Confidence: ${(probabilities.Diabetes * 100).toFixed(0)}%`;
-            insightsHTML = `<h4>AI Insights:</h4><p>The AI detected a significant spike in <b>Acetone</b>. In the clinical data used to train our model, this is a key biomarker for diabetic profiles.</p><p><b>Disclaimer:</b> This is not a diagnosis. We strongly recommend sharing these preliminary findings with a healthcare professional.</p>`;
+            insightsHTML = `<h4>AI Insights:</h4><p>The AI detected a significant spike in <b>Acetone</b>, a key ketone biomarker. In our training data, this signature is strongly correlated with diabetic profiles.</p><p><b>Disclaimer:</b> This is not a diagnosis. We strongly recommend sharing these preliminary findings with a healthcare professional.</p>`;
         } else { // Lung Cancer
             resultClass = 'red';
             status = 'Cancer Markers Detected';
             resultElements.icon.textContent = '!!';
             resultElements.percentage.textContent = `Confidence: ${(probabilities['Lung Cancer'] * 100).toFixed(0)}%`;
-            insightsHTML = `<h4>AI Insights:</h4><p>Our AI detected a pattern of elevated biomarkers, including <b>alkane_mix</b>. This signature is strongly correlated with lung cancer profiles in our training data.</p><p><b>Disclaimer:</b> This is not a diagnosis. We strongly recommend sharing these preliminary findings with a healthcare professional.</p>`;
+            insightsHTML = `<h4>AI Insights:</h4><p>Our AI detected a pattern of elevated biomarkers, including a specific mixture of <b>alkane and benzene compounds</b>. This signature is strongly correlated with lung cancer profiles in our training data.</p><p><b>Disclaimer:</b> This is not a diagnosis. We strongly recommend sharing these preliminary findings with a healthcare professional.</p>`;
         }
         
         buttons.resultAction.textContent = 'Run Another Test';
